@@ -127,15 +127,16 @@ def sendAllMessage():
         "ranking": [['京东', 100, 90, 2, 3, 4, 0], ['天猫', 110, 92, 3, 4, 5, 0]]
     }
 
-    data["totalDeclareCount"] = getTotalDeclareCount()
-    data["totalReleaseCount"] = getTotalReleaseCount()
-    data["caiNiaoDeclareCount"] = getCaiNiaoDeclareCount()
-    data["caiNiaoReleaseCount"] = getCaiNiaoReleaseCount()
-    data["ranking"] = getRanking()
+    if len(ExhibitionHandler.clients) > 0:
+        data["totalDeclareCount"] = getTotalDeclareCount()
+        data["totalReleaseCount"] = getTotalReleaseCount()
+        data["caiNiaoDeclareCount"] = getCaiNiaoDeclareCount()
+        data["caiNiaoReleaseCount"] = getCaiNiaoReleaseCount()
+        data["ranking"] = getRanking()
 
-    jsonStr = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
-    for c in ExhibitionHandler.clients:
-        c.write_message(jsonStr)
+        jsonStr = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
+        for c in ExhibitionHandler.clients:
+            c.write_message(jsonStr)
 
 
 class MainHandler(tornado.web.RequestHandler):
