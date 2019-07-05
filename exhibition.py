@@ -93,10 +93,40 @@ def getCaiNiaoReleaseCount():
         return result[0][0]
 
 
+def getVipDeclareCount():
+    now = datetime.now()
+    sql = '''select count(1) from ceb2_invt_head t
+        where t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
+		and t.ebc_code = '4401944972'
+	'''
+    startTime = now.strftime("%Y-%m-%d")
+    result = executeSql(sql, startTime=startTime)
+    if result is None:
+        return 0
+    else:
+        return result[0][0]
+
+
+def getVipReleaseCount():
+    now = datetime.now()
+    sql = '''select count(1) from ceb2_invt_head t
+        where t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
+		and t.ebc_code = '4401944972'
+		and t.app_status = '800'
+	'''
+    startTime = now.strftime("%Y-%m-%d")
+    result = executeSql(sql, startTime=startTime)
+    if result is None:
+        return 0
+    else:
+        return result[0][0]
+
+
 def getRanking():
     now = datetime.now()
     sql = '''select * from (
 	select min(t.ebc_name),count(1), sum(case t.app_status when '800' then 1 else 0 end)
+    , sum(case t.cus_status when '26' then 1 else 0 end)
     , sum(case t.app_status when '2' then 1 else 0 end)
 	, sum(case t.app_status when '03' then 1 else 0 end)
 	, sum(case t.app_status when '02' then 1 else 0 end)
@@ -124,7 +154,9 @@ def sendAllMessage():
         "totalReleaseCount": 100,
         "caiNiaoDeclareCount": 150,
         "caiNiaoReleaseCount": 140,
-        "ranking": [['京东', 100, 90, 2, 3, 4, 0], ['天猫', 110, 92, 3, 4, 5, 0]]
+        "vipDeclareCount": 130,
+        "vipReleaseCount": 120,
+        "ranking": [['京东', 100, 90, 80, 2, 3, 4, 0], ['天猫', 110, 92, 90, 3, 4, 5, 0]]
     }
 
     if len(ExhibitionHandler.clients) > 0:
@@ -132,6 +164,8 @@ def sendAllMessage():
         data["totalReleaseCount"] = getTotalReleaseCount()
         data["caiNiaoDeclareCount"] = getCaiNiaoDeclareCount()
         data["caiNiaoReleaseCount"] = getCaiNiaoReleaseCount()
+        data["vipDeclareCount"] = getVipDeclareCount()
+        data["vipReleaseCount"] = getVipReleaseCount()
         data["ranking"] = getRanking()
 
         jsonStr = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
