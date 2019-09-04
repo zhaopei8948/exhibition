@@ -28,7 +28,7 @@ def executeSql(sql, fetch=True, **kw):
             result = cursor.fetchall()
         else:
             con.commit()
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
         con.rollback()
     finally:
@@ -129,7 +129,10 @@ def getRanking():
     , sum(case t.cus_status when '26' then 1 else 0 end)
     , sum(case t.app_status when '2' then 1 else 0 end)
 	, sum(case t.app_status when '03' then 1 else 0 end)
-	, sum(case t.app_status when '02' then 1 else 0 end)
+    , sum(case
+        when t.app_status = '02' and not exists (select tt0.order_no from ceb2_invt_head tt0 where tt0.sys_date >= to_date('2019-09-04', 'yyyy-MM-dd')
+            and tt0.app_status in ('800', '500', '899') and t.order_no = tt0.order_no and t.ebp_code = tt0.ebp_code)
+        then 1 else 0 end)
     , sum(case t.app_status when '100' then 1 else 0 end)
     from ceb2_invt_head t
     where  t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
