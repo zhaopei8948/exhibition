@@ -68,7 +68,7 @@ def getCaiNiaoDeclareCount():
     now = datetime.now()
     sql = '''select count(1) from ceb2_invt_head t
         where t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
-		and t.ebc_code in ('3301968FU0', '410166003B', '4403160SGR')
+		and t.ebc_code in ('3301968FU0', '410166003B', '4403160SGR', '4101660042')
 	'''
     startTime = now.strftime("%Y-%m-%d")
     result = executeSql(sql, startTime=startTime)
@@ -82,7 +82,7 @@ def getCaiNiaoReleaseCount():
     now = datetime.now()
     sql = '''select count(1) from ceb2_invt_head t
         where t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
-		and t.ebc_code in ('3301968FU0', '410166003B', '4403160SGR')
+		and t.ebc_code in ('3301968FU0', '410166003B', '4403160SGR', '4101660042')
 		and t.app_status = '800'
 	'''
     startTime = now.strftime("%Y-%m-%d")
