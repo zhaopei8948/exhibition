@@ -13,6 +13,7 @@ username = os.getenv('ORCL_USERNAME') or 'username'
 password = os.getenv('ORCL_PASSWORD') or 'password'
 dbUrl = os.getenv('ORCL_DBURL') or '127.0.0.1:1521/orcl'
 seconds = os.getenv('SCHED_SECONDS') or '5'
+appSeconds = os.getenv('SCHED_APP_SECONDS') or '3'
 urlPrefix = os.getenv("EXHIBITION_CONTENT_PATH") or ''
 
 
@@ -53,6 +54,32 @@ def getTotalDeclareCount():
 def getTotalReleaseCount():
     now = datetime.now()
     sql = '''select count(1) from ceb2_invt_head t
+        where t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
+		and t.app_status = '800'
+	'''
+    startTime = now.strftime("%Y-%m-%d")
+    result = executeSql(sql, startTime=startTime)
+    if result is None:
+        return 0
+    else:
+        return result[0][0]
+
+def getExportTotalDeclareCount():
+    now = datetime.now()
+    sql = '''select count(1) from ceb3_invt_head t
+        where t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
+	'''
+    startTime = now.strftime("%Y-%m-%d")
+    result = executeSql(sql, startTime=startTime)
+    if result is None:
+        return 0
+    else:
+        return result[0][0]
+
+
+def getExportTotalReleaseCount():
+    now = datetime.now()
+    sql = '''select count(1) from ceb3_invt_head t
         where t.sys_date >= to_date(:startTime, 'yyyy-MM-dd')
 		and t.app_status = '800'
 	'''
@@ -175,6 +202,26 @@ def sendAllMessage():
         for c in ExhibitionHandler.clients:
             c.write_message(jsonStr)
 
+def sendAppAllMessage():
+    now = datetime.now()
+    strnow = now.strftime("%Y-%m-%d %H:%M:%S.%f")
+    data = {
+        "time": strnow,
+        "totalDeclareCount": 200,
+        "totalReleaseCount": 100,
+        "exportTotalDeclareCount": 150,
+        "exportTotalReleaseCount": 140
+    }
+
+    if len(AppExhibitionHandler.clients) > 0:
+        data["totalDeclareCount"] = getTotalDeclareCount()
+        data["totalReleaseCount"] = getTotalReleaseCount()
+        data["exportTotalDeclareCount"] = getExportTotalDeclareCount()
+        data["exportTotalReleaseCount"] = getExportTotalReleaseCount()
+
+        jsonStr = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
+        for c in AppExhibitionHandler.clients:
+            c.write_message(jsonStr)
 
 class MainHandler(tornado.web.RequestHandler):
 
@@ -199,14 +246,40 @@ class ExhibitionHandler(tornado.websocket.WebSocketHandler):
         print("WebSOcket closed")
         ExhibitionHandler.clients.remove(self)
 
+class AppMainHandler(tornado.web.RequestHandler):
+
+    def get(self):
+        self.render("app.html")
+
+class AppExhibitionHandler(tornado.websocket.WebSocketHandler):
+
+    clients = set()
+
+    def check_origin(self, origin):
+        return True
+
+    def open(self):
+        print("WebSocket opened")
+        AppExhibitionHandler.clients.add(self)
+
+    def on_message(self, message):
+        print(u"You said:" + message)
+
+    def on_close(self):
+        print("WebSOcket closed")
+        AppExhibitionHandler.clients.remove(self)
+
 def make_app():
     return tornado.web.Application([
         (urlPrefix + r"/", MainHandler),
         (urlPrefix + r"/ws/exhibition", ExhibitionHandler),
-    ])
+        (urlPrefix + r"/app", AppMainHandler),
+        (urlPrefix + r"/ws/app/exhibition", AppExhibitionHandler),
+    ], debug=True)
 
 
 app = make_app()
 app.listen(int(port))
 tornado.ioloop.PeriodicCallback(sendAllMessage, int(seconds) * 1000).start()
+tornado.ioloop.PeriodicCallback(sendAppAllMessage, int(appSeconds) * 1000).start()
 tornado.ioloop.IOLoop.current().start()

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="https://inorganik.github.io/assets/css/style.css?v=20171206"> -->
+
+    <title>exhibition</title>
+
+    <style type="text/css">
+        .small-box {
+            border-radius: 2px;
+            position: relative;
+            display: block;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .small-box > .inner {
+            padding: 10px;
+        }
+
+        .bg-aqua {
+            background-color: #00c0ef !important;
+        }
+
+        .bg-green {
+            background-color:#00a65a !important;
+        }
+
+        .bg-yellow {
+            background-color:#f39c12 !important;
+        }
+
+        .bg-red {
+            background-color:#dd4b39 !important;
+        }
+        
+        .bg-maroon {
+            background-color:#d81b60 !important;
+        }
+
+        .bg-purple {
+            background-color:#605ca8 !important;
+        }
+
+        .bg-navy {
+            background-color:#001f3f !important;
+        }
+
+        .bg-aqua, .bg-green, .bg-yellow, .bg-red, .bg-maroon, .bg-purple, .bg-navy {
+            color: #fff !important;
+        }
+
+        .release-proportion {
+            height: 400px;
+        }
+    </style>
+  </head>
+  <body>
+      <div class="container mt-3">
+          <div class="row">
+              <div class="col-lg-6 col-xs-12">
+                  <div class="small-box bg-purple">
+                      <div class="inner">
+                          <h3 id="totalDeclareCount">150</h3>
+                          <p>进出口总申报单量</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-xs-12">
+                  <div class="small-box bg-maroon">
+                      <div class="inner">
+                          <h3 id="totalReleaseCount">250</h3>
+                          <p>进出口总放行单量</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-6 col-xs-12">
+                  <div class="small-box bg-purple">
+                      <div class="inner">
+                          <h3 id="inputTotalDeclareCount">150</h3>
+                          <p>进口总申报单量</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-xs-12">
+                  <div class="small-box bg-maroon">
+                      <div class="inner">
+                          <h3 id="inputTotalReleaseCount">250</h3>
+                          <p>进口总放行单量</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-6 col-xs-12">
+                  <div class="small-box bg-purple">
+                      <div class="inner">
+                          <h3 id="exportTotalDeclareCount">150</h3>
+                          <p>出口总申报单量</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-xs-12">
+                  <div class="small-box bg-maroon">
+                      <div class="inner">
+                          <h3 id="exportTotalReleaseCount">250</h3>
+                          <p>出口总放行单量</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/countup.js/1.9.3/countUp.min.js" ></script>
+    <script>
+        var options = {
+            useEasing: true,
+            useGrouping: true,
+            separator: ',',
+            decimal: '.'
+        };
+        var totalDeclareCountCountUp = new CountUp('totalDeclareCount', 0, 150, 0, 2, options);
+        totalDeclareCountCountUp.start();
+
+        var totalReleaseCountCountUp = new CountUp('totalReleaseCount', 0, 150, 0, 2, options);
+        totalReleaseCountCountUp.start();
+
+        var inputTotalDeclareCountCountUp = new CountUp('inputTotalDeclareCount', 0, 150, 0, 2, options);
+        inputTotalDeclareCountCountUp.start();
+
+        var inputTotalReleaseCountCountUp = new CountUp('inputTotalReleaseCount', 0, 150, 0, 2, options);
+        inputTotalReleaseCountCountUp.start();
+
+        var exportTotalDeclareCountCountUp = new CountUp('exportTotalDeclareCount', 0, 150, 0, 2, options);
+        exportTotalDeclareCountCountUp.start();
+
+        var exportTotalReleaseCountCountUp = new CountUp('exportTotalReleaseCount', 0, 150, 0, 2, options);
+        exportTotalReleaseCountCountUp.start();
+
+        function openWebSocket(onMessage) {
+            var wsServer = 'ws://' + location.host + '/maintain/exhibition/ws/app/exhibition';
+            var websocket = new WebSocket(wsServer);
+
+            websocket.onopen = function() {
+                console.info("websocket connect open");
+            };
+
+            websocket.onmessage = function(ev) {
+                console.info("recv msg data: " + ev.data);
+                onMessage(ev.data);
+            };
+
+            websocket.onclose = function(ev) {
+                console.info("websocket close");
+            };
+        }
+
+        openWebSocket(function(message) {
+            console.info("message: " + message);
+            messageJson = JSON.parse(message);
+            var totalDeclareCount = messageJson["totalDeclareCount"];
+            var totalReleaseCount = messageJson["totalReleaseCount"];
+            var exportTotalDeclareCount = messageJson["exportTotalDeclareCount"];
+            var exportTotalReleaseCount = messageJson["exportTotalReleaseCount"];
+            totalDeclareCountCountUp.update(totalDeclareCount + exportTotalDeclareCount);
+            totalReleaseCountCountUp.update(totalReleaseCount + exportTotalReleaseCount);
+            inputTotalDeclareCountCountUp.update(totalDeclareCount);
+            inputTotalReleaseCountCountUp.update(totalReleaseCount);
+            exportTotalDeclareCountCountUp.update(exportTotalDeclareCount);
+            exportTotalReleaseCountCountUp.update(exportTotalReleaseCount);
+        });
+    </script>
+  </body>
+</html>
