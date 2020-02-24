@@ -67,7 +67,7 @@
               <div class="col-lg-6 col-xs-12">
                   <div class="small-box bg-purple">
                       <div class="inner">
-                          <h3 id="totalDeclareCount">150</h3>
+                          <h3 id="totalDeclareCount">0</h3>
                           <p>进出口总申报单量</p>
                       </div>
                   </div>
@@ -75,7 +75,7 @@
               <div class="col-lg-6 col-xs-12">
                   <div class="small-box bg-maroon">
                       <div class="inner">
-                          <h3 id="totalReleaseCount">250</h3>
+                          <h3 id="totalReleaseCount">0</h3>
                           <p>进出口总放行单量</p>
                       </div>
                   </div>
@@ -85,7 +85,7 @@
               <div class="col-lg-6 col-xs-12">
                   <div class="small-box bg-purple">
                       <div class="inner">
-                          <h3 id="inputTotalDeclareCount">150</h3>
+                          <h3 id="inputTotalDeclareCount">0</h3>
                           <p>进口总申报单量</p>
                       </div>
                   </div>
@@ -93,7 +93,7 @@
               <div class="col-lg-6 col-xs-12">
                   <div class="small-box bg-maroon">
                       <div class="inner">
-                          <h3 id="inputTotalReleaseCount">250</h3>
+                          <h3 id="inputTotalReleaseCount">0</h3>
                           <p>进口总放行单量</p>
                       </div>
                   </div>
@@ -103,7 +103,7 @@
               <div class="col-lg-6 col-xs-12">
                   <div class="small-box bg-purple">
                       <div class="inner">
-                          <h3 id="exportTotalDeclareCount">150</h3>
+                          <h3 id="exportTotalDeclareCount">0</h3>
                           <p>出口总申报单量</p>
                       </div>
                   </div>
@@ -133,22 +133,22 @@
             separator: ',',
             decimal: '.'
         };
-        var totalDeclareCountCountUp = new CountUp('totalDeclareCount', 0, 150, 0, 2, options);
+        var totalDeclareCountCountUp = new CountUp('totalDeclareCount', 0, 0, 0, 2, options);
         totalDeclareCountCountUp.start();
 
-        var totalReleaseCountCountUp = new CountUp('totalReleaseCount', 0, 150, 0, 2, options);
+        var totalReleaseCountCountUp = new CountUp('totalReleaseCount', 0, 0, 0, 2, options);
         totalReleaseCountCountUp.start();
 
-        var inputTotalDeclareCountCountUp = new CountUp('inputTotalDeclareCount', 0, 150, 0, 2, options);
+        var inputTotalDeclareCountCountUp = new CountUp('inputTotalDeclareCount', 0, 0, 0, 2, options);
         inputTotalDeclareCountCountUp.start();
 
-        var inputTotalReleaseCountCountUp = new CountUp('inputTotalReleaseCount', 0, 150, 0, 2, options);
+        var inputTotalReleaseCountCountUp = new CountUp('inputTotalReleaseCount', 0, 0, 0, 2, options);
         inputTotalReleaseCountCountUp.start();
 
-        var exportTotalDeclareCountCountUp = new CountUp('exportTotalDeclareCount', 0, 150, 0, 2, options);
+        var exportTotalDeclareCountCountUp = new CountUp('exportTotalDeclareCount', 0, 0, 0, 2, options);
         exportTotalDeclareCountCountUp.start();
 
-        var exportTotalReleaseCountCountUp = new CountUp('exportTotalReleaseCount', 0, 150, 0, 2, options);
+        var exportTotalReleaseCountCountUp = new CountUp('exportTotalReleaseCount', 0, 0, 0, 2, options);
         exportTotalReleaseCountCountUp.start();
 
         function openWebSocket(onMessage) {
